@@ -5,7 +5,9 @@ import { useToast } from './ToastContext';
 
 const SocketContext = createContext();
 
-const SOCKET_URL = 'http://localhost:5050';
+const SOCKET_URL = window.location.origin.includes('localhost')
+  ? 'http://localhost:5050'
+  : window.location.origin;
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
