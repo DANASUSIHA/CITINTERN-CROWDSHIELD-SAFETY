@@ -5,9 +5,11 @@ import { useToast } from './ToastContext';
 
 const SocketContext = createContext();
 
-const SOCKET_URL = window.location.origin.includes('localhost')
-  ? 'http://localhost:5050'
-  : window.location.origin;
+const SOCKET_URL = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL
+  : (window.location.origin.includes('localhost')
+    ? 'http://localhost:5050'
+    : window.location.origin);
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
