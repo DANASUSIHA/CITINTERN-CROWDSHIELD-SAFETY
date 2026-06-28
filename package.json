@@ -4,7 +4,7 @@
   "description": "CrowdShield root configuration for unified MERN deployment",
   "scripts": {
     "install-backend": "cd backend && npm install",
-    "install-client": "cd client && npm install --legacy-peer-deps",
+    "install-client": "cd client && npm install --production=false --legacy-peer-deps",
     "build-client": "cd client && npm run build",
     "build": "npm run install-backend && npm run install-client && npm run build-client",
     "start": "cd backend && NODE_ENV=production node server.js",
