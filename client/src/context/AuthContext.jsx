@@ -2,11 +2,19 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-const API_BASE_URL = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api`
-  : (window.location.origin.includes('localhost')
-    ? 'http://localhost:5050/api'
-    : `${window.location.origin}/api`);
+const getBaseApiUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl) {
+    const cleaned = envUrl.trim().replace(/\/+$/, '').replace(/\/api$/, '');
+    return `${cleaned}/api`;
+  }
+  if (typeof window !== 'undefined' && window.location.origin.includes('localhost')) {
+    return 'http://localhost:5050/api';
+  }
+  return typeof window !== 'undefined' ? `${window.location.origin}/api` : '/api';
+};
+
+const API_BASE_URL = getBaseApiUrl();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

@@ -5,11 +5,18 @@ import { useToast } from './ToastContext';
 
 const SocketContext = createContext();
 
-const SOCKET_URL = import.meta.env.VITE_API_URL
-  ? import.meta.env.VITE_API_URL
-  : (window.location.origin.includes('localhost')
-    ? 'http://localhost:5050'
-    : window.location.origin);
+const getSocketUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl) {
+    return envUrl.trim().replace(/\/+$/, '').replace(/\/api$/, '');
+  }
+  if (typeof window !== 'undefined' && window.location.origin.includes('localhost')) {
+    return 'http://localhost:5050';
+  }
+  return typeof window !== 'undefined' ? window.location.origin : '';
+};
+
+const SOCKET_URL = getSocketUrl();
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
